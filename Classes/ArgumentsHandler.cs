@@ -27,14 +27,14 @@ public class ArgumentsHandler
         commands.Add("outputPath",
             new Command("outputPath",
                 "--outputPath; -op",
-                "The path to extract the workbook to\nUsage: ExcelExporter.exe --outputPath <output_path> --inputPath <input_file>\nExample: ExcelExporter.exe --outputPath ./output --inputPath input.xlsx\n",
+                "The path to extract the workbook to\nUsage: ExcelExporter.exe <input_file> --outputPath <output_path>\nExample: ExcelExporter.exe input.xlsx --outputPath ./output\n",
                 OutputPathHandler
             )
         );
         commands.Add("fileType",
             new Command("fileType",
                 "--fileType; -ft",
-                "The file type to extract the workbook to\nUsage: ExcelExporter.exe --fileType <file_type> --inputPath <input_file>\nExample: ExcelExporter.exe --fileType xlsm --inputPath input.xlsx\n",
+                "The file type to extract the workbook to\nUsage: ExcelExporter.exe <input_file> --fileType <file_type>\nExample: ExcelExporter.exe input.xlsx --fileType xlsm\n",
                 FileTypeHandler
             )
         );
