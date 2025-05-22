@@ -28,49 +28,58 @@ internal class Program
         
         #region Excel Export
         VBA_Handling vbaHandling = new VBA_Handling();
+        Excel.Application xlApp = new Excel.Application();
+        xlApp.Visible = false;
+        Excel.Workbook xlWB = null;
 
-        Excel.Application excelApp = new Excel.Application();
-        excelApp.Visible = false;
-        Excel.Workbook workbook = excelApp.Workbooks.Open(inputFilePath);
-
-        foreach (Excel.Worksheet worksheet in workbook.Sheets)
+        try
         {
-            // Debugging for another project
-            Excel.Range range = worksheet.Range["A1"];
-            Console.WriteLine(range.Value2.ToString() ?? "");
+            xlWB = xlApp.Workbooks.Open(inputFilePath);
 
-            Console.WriteLine($"Exporting worksheet '{worksheet.Name}'...");
-            string displaySheetName = worksheet.Name + "_display";
-            string formulaSheetName = worksheet.Name + "_formula";
-
-            // Convert Excel range values to string arrays
-            Excel.Range usedRange = worksheet.UsedRange;
-            object[,] valueArray = usedRange.Value2 as object[,];
-            object[,] formulaArray = usedRange.Formula as object[,];
-
-            CSVHandler.WriteToCSV(valueArray, worksheetDir, displaySheetName);
-            CSVHandler.WriteToCSV(formulaArray, worksheetDir, formulaSheetName);
-
-            // Export VBA code for the worksheet
-            try
+            foreach (Excel.Worksheet xlWS in xlWB.Sheets)
             {
-                vbaHandling.ExportWorksheetVBA(worksheet, vbaDir);
+                Console.WriteLine($"Exporting worksheet '{xlWS.Name}'...");
+                string displaySheetName = xlWS.Name + "_display";
+                string formulaSheetName = xlWS.Name + "_formula";
+
+                // Convert Excel range values to string arrays
+                Excel.Range xlRng_used = xlWS.UsedRange;
+                object[,] valueArray = xlRng_used.Value2 as object[,];
+                object[,] formulaArray = xlRng_used.Formula as object[,];
+
+                CSVHandler.WriteToCSV(valueArray, worksheetDir, displaySheetName);
+                CSVHandler.WriteToCSV(formulaArray, worksheetDir, formulaSheetName);
+
+                // Export VBA code for the worksheet
+                try
+                {
+                    vbaHandling.ExportWorksheetVBA(xlWS, vbaDir);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Warning: Could not export VBA code for worksheet '{xlWS.Name}': {ex.Message}");
+                }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Warning: Could not export VBA code for worksheet '{worksheet.Name}': {ex.Message}");
-            }
+
+            vbaHandling.ExportModulesVBA(xlWB, vbaDir);
+            vbaHandling.ExportClassesVBA(xlWB, vbaDir);
+            vbaHandling.ExportFormsVBA(xlWB, vbaDir);
+            vbaHandling.ExportThisWorkbookVBA(xlWB, vbaDir);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
         }
 
-        vbaHandling.ExportModulesVBA(workbook, vbaDir);
-        vbaHandling.ExportClassesVBA(workbook, vbaDir);
-        vbaHandling.ExportFormsVBA(workbook, vbaDir);
-        vbaHandling.ExportThisWorkbookVBA(workbook, vbaDir);
-        #endregion
+            #endregion
 
         #region Cleanup
-        workbook.Close(false);
-        excelApp.Quit();
+        Console.WriteLine("Cleaning up...");
+        
+        if (xlWB != null)
+            xlWB.Close(false);
+
+        xlApp.Quit();
         #endregion
     }
 }
