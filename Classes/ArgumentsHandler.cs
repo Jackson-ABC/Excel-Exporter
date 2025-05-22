@@ -14,28 +14,28 @@ public class ArgumentsHandler
             new Command("help",
                 "--help; -h",
                 "Display this help message",
-                helpHandler
+                HelpHandler
             )
         );
         commands.Add("version",
             new Command("version",
                 "--version; -v",
                 "Display the version of the program",
-                versionHandler
+                VersionHandler
             )
         );
         commands.Add("outputPath",
             new Command("outputPath",
                 "--outputPath; -op",
                 "The path to extract the workbook to\nUsage: ExcelExporter.exe --outputPath <output_path> --inputPath <input_file>\nExample: ExcelExporter.exe --outputPath ./output --inputPath input.xlsx\n",
-                outputPathHandler
+                OutputPathHandler
             )
         );
         commands.Add("fileType",
             new Command("fileType",
                 "--fileType; -ft",
                 "The file type to extract the workbook to\nUsage: ExcelExporter.exe --fileType <file_type> --inputPath <input_file>\nExample: ExcelExporter.exe --fileType xlsm --inputPath input.xlsx\n",
-                fileTypeHandler
+                FileTypeHandler
             )
         );
 
@@ -121,7 +121,7 @@ public class ArgumentsHandler
     }
 
     #region Command Handlers
-    private static bool helpHandler(
+    private static bool HelpHandler(
         string[] args,
         out string? parsedInputFilePath, out string? parsedFileType, out string? parsedOutputDir, out string? outputText
     )
@@ -147,7 +147,7 @@ public class ArgumentsHandler
         return false;
     }
 
-    private static bool versionHandler(
+    private static bool VersionHandler(
         string[] args,
         out string? parsedInputFilePath, out string? parsedFileType, out string? parsedOutputDir, out string? outputText
     )
@@ -162,7 +162,7 @@ public class ArgumentsHandler
         return false;
     }
 
-    private static bool outputPathHandler(
+    private static bool OutputPathHandler(
         string[] args,
         out string? parsedInputFilePath, out string? parsedFileType, out string? parsedOutputDir, out string? outputText
     )
@@ -210,7 +210,7 @@ public class ArgumentsHandler
         return true;
     }
 
-    private static bool fileTypeHandler(
+    private static bool FileTypeHandler(
         string[] args,
         out string? parsedInputFilePath, out string? parsedFileType, out string? parsedOutputDir, out string? outputText)
     {
