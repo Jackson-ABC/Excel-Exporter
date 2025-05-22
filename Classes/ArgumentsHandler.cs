@@ -14,28 +14,28 @@ public class ArgumentsHandler
             new Command("help",
                 "--help; -h",
                 "Display this help message",
-                helpHandler
+                HelpHandler
             )
         );
         commands.Add("version",
             new Command("version",
                 "--version; -v",
                 "Display the version of the program",
-                versionHandler
+                VersionHandler
             )
         );
         commands.Add("outputPath",
             new Command("outputPath",
                 "--outputPath; -op",
-                "The path to extract the workbook to\nUsage: ExcelExporter.exe --outputPath <output_path> --inputPath <input_file>\nExample: ExcelExporter.exe --outputPath ./output --inputPath input.xlsx\n",
-                outputPathHandler
+                "The path to extract the workbook to\nUsage: ExcelExporter.exe <input_file> --outputPath <output_path>\nExample: ExcelExporter.exe input.xlsx --outputPath ./output\n",
+                OutputPathHandler
             )
         );
         commands.Add("fileType",
             new Command("fileType",
                 "--fileType; -ft",
-                "The file type to extract the workbook to\nUsage: ExcelExporter.exe --fileType <file_type> --inputPath <input_file>\nExample: ExcelExporter.exe --fileType xlsm --inputPath input.xlsx\n",
-                fileTypeHandler
+                "The file type to extract the workbook to\nUsage: ExcelExporter.exe <input_file> --fileType <file_type>\nExample: ExcelExporter.exe input.xlsx --fileType xlsm\n",
+                FileTypeHandler
             )
         );
 
@@ -47,7 +47,7 @@ public class ArgumentsHandler
         out string? inputFilePath, out string? fileType, out string? outputDir, out string? outputText
     )
     {
-        inputFilePath = null;
+        inputFilePath = args[0];
         fileType = null;
         outputDir = null;
         outputText = null;
@@ -121,38 +121,7 @@ public class ArgumentsHandler
     }
 
     #region Command Handlers
-    private static bool basicHandler(
-        string[] args,
-        out string? inputFilePath, out string? fileType, out string? outputDir, out string? outputText
-    )
-    {
-        outputText = null;
-        fileType = null;
-        outputDir = null;
-        inputFilePath = null;
-
-        if(args.Length != 1)
-        {
-            outputText += "Error: Invalid number of arguments\n";
-            outputText += "Usage: ExcelExporter.exe <input_file> <arguments>\n";
-            outputText += "Example: ExcelExporter.exe input.xlsx --outputPath ./output\n";
-            return false;
-        }
-        else if(!File.Exists(args[0]))
-        {
-            outputText += "Error: Input file does not exist\n";
-            return false;
-        }
-        else
-        {
-            inputFilePath = args[0];
-            fileType = Path.GetExtension(inputFilePath).TrimStart('.');     
-            outputDir = Path.GetDirectoryName(inputFilePath);
-            return true;
-        }
-    }
-
-    private static bool helpHandler(
+    private static bool HelpHandler(
         string[] args,
         out string? parsedInputFilePath, out string? parsedFileType, out string? parsedOutputDir, out string? outputText
     )
@@ -178,7 +147,7 @@ public class ArgumentsHandler
         return false;
     }
 
-    private static bool versionHandler(
+    private static bool VersionHandler(
         string[] args,
         out string? parsedInputFilePath, out string? parsedFileType, out string? parsedOutputDir, out string? outputText
     )
@@ -193,7 +162,7 @@ public class ArgumentsHandler
         return false;
     }
 
-    private static bool outputPathHandler(
+    private static bool OutputPathHandler(
         string[] args,
         out string? parsedInputFilePath, out string? parsedFileType, out string? parsedOutputDir, out string? outputText
     )
@@ -220,28 +189,7 @@ public class ArgumentsHandler
         return true;
     }
 
-    private static bool filePathHandler(
-        string[] args,
-        out string? parsedInputFilePath, out string? parsedFileType, out string? parsedOutputDir, out string? outputText)
-    {
-        parsedInputFilePath = null;
-        parsedFileType = null;
-        parsedOutputDir = null;
-        outputText = null;
-
-        if (args.Length < 1)
-        {
-            return false;
-        }
-
-        // FilePath should always be the first argument
-        int index = 0;
-        parsedInputFilePath = args[index];
-        
-        return true;
-    }
-
-    private static bool fileTypeHandler(
+    private static bool FileTypeHandler(
         string[] args,
         out string? parsedInputFilePath, out string? parsedFileType, out string? parsedOutputDir, out string? outputText)
     {

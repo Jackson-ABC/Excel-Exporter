@@ -25,11 +25,12 @@ public class VBA_Handling
             Directory.CreateDirectory(vbaDir);
 
             // Get the worksheet's code module
-            VBA.VBComponent vbComponent = vbComponents.Item(worksheet.Name);
+            
+            VBA.VBComponent vbComponent = vbComponents.Item(worksheet.CodeName);
             if (vbComponent != null)
             {
                 // Create a .bas file for the worksheet's code
-                string vbaFilePath = Path.Combine(vbaDir, $"{vbComponent.Name} ({worksheet.Name}).{fileType}");
+                string vbaFilePath = Path.Combine(vbaDir, $"{worksheet.CodeName} ({worksheet.Name}).{fileType}");
                 
                 // Write the VBA code to file
                 File.WriteAllText(vbaFilePath, vbComponent.CodeModule.Lines[1, vbComponent.CodeModule.CountOfLines]);
