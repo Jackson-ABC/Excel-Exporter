@@ -47,7 +47,7 @@ public class ArgumentsHandler
         out string? inputFilePath, out string? fileType, out string? outputDir, out string? outputText
     )
     {
-        inputFilePath = null;
+        inputFilePath = args[0];
         fileType = null;
         outputDir = null;
         outputText = null;
