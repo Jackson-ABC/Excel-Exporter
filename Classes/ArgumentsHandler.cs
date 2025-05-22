@@ -189,27 +189,6 @@ public class ArgumentsHandler
         return true;
     }
 
-    private static bool filePathHandler(
-        string[] args,
-        out string? parsedInputFilePath, out string? parsedFileType, out string? parsedOutputDir, out string? outputText)
-    {
-        parsedInputFilePath = null;
-        parsedFileType = null;
-        parsedOutputDir = null;
-        outputText = null;
-
-        if (args.Length < 1)
-        {
-            return false;
-        }
-
-        // FilePath should always be the first argument
-        int index = 0;
-        parsedInputFilePath = args[index];
-        
-        return true;
-    }
-
     private static bool FileTypeHandler(
         string[] args,
         out string? parsedInputFilePath, out string? parsedFileType, out string? parsedOutputDir, out string? outputText)
