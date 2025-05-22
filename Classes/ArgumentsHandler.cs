@@ -121,37 +121,6 @@ public class ArgumentsHandler
     }
 
     #region Command Handlers
-    private static bool basicHandler(
-        string[] args,
-        out string? inputFilePath, out string? fileType, out string? outputDir, out string? outputText
-    )
-    {
-        outputText = null;
-        fileType = null;
-        outputDir = null;
-        inputFilePath = null;
-
-        if(args.Length != 1)
-        {
-            outputText += "Error: Invalid number of arguments\n";
-            outputText += "Usage: ExcelExporter.exe <input_file> <arguments>\n";
-            outputText += "Example: ExcelExporter.exe input.xlsx --outputPath ./output\n";
-            return false;
-        }
-        else if(!File.Exists(args[0]))
-        {
-            outputText += "Error: Input file does not exist\n";
-            return false;
-        }
-        else
-        {
-            inputFilePath = args[0];
-            fileType = Path.GetExtension(inputFilePath).TrimStart('.');     
-            outputDir = Path.GetDirectoryName(inputFilePath);
-            return true;
-        }
-    }
-
     private static bool helpHandler(
         string[] args,
         out string? parsedInputFilePath, out string? parsedFileType, out string? parsedOutputDir, out string? outputText
