@@ -1,3 +1,5 @@
+using System.Reflection;
+
 namespace ExcelExporter.Classes
 {
     public class ArgumentsHandler
@@ -159,18 +161,23 @@ namespace ExcelExporter.Classes
             return false;
         }
 
+        /// <summary>
+        /// Handles the <c>--version</c> argument by reading the version number from a file
+        /// and returning it in the <paramref name="message"/>.
+        /// </summary>
+        /// <param name="args">The full array of command-line arguments.</param>
+        /// <param name="parsedArguments">The object to populate with parsed values (unused).</param>
+        /// <param name="message">The message containing version information.</param>
+        /// <returns>
+        /// Always returns <c>false</c> to indicate no further argument processing is required.
+        /// </returns>
         private static bool VersionHandler(
             string[] args,
-            out string? parsedInputFilePath, out string? parsedFileType, out string? parsedOutputDir, out string? outputText
+            ParsedArguments parsedArguments,
+            out string? message
         )
         {
-            parsedInputFilePath = null;
-            parsedFileType = null;
-            parsedOutputDir = null;
-
-            outputText = "Excel Exporter - Command Line Interface\n";
-            outputText += "====================================\n";
-            outputText += "Version " + File.ReadAllText("version.txt") + "\n";
+            message = $"Version {Assembly.GetExecutingAssembly().GetName().Version}\n";
             return false;
         }
 
