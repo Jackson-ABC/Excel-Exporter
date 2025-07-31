@@ -31,6 +31,16 @@ namespace ExcelExporter.Classes
                     OutputPathHandler
                 )
             );
+            commands.Add("outputFolder",
+                new Command("outputFolder",
+                    "--outputFolder; -of",
+                    "The folder to extract the workbook to." +
+                    "If outputPath is specified alongside this, this will be generated inside that folder\n" +
+                    "Usage: ExcelExporter.exe <input_file> --outputFolder <output_folder>\n" +
+                    "Example: ExcelExporter.exe input.xlsx --outputFolder ./output_xlsm\n",
+                    OutputFolderHandler
+                )
+            );
             commands.Add("fileType",
                 new Command("fileType",
                     "--fileType; -ft",
@@ -208,6 +218,43 @@ namespace ExcelExporter.Classes
             }
 
             parsedArguments.OutputPath = args[pathIndex + 1];
+            return true;
+        }
+
+        /// <summary>
+        /// Parses the <c>--outputFolder</c> or <c>-of</c> argument from the command-line arguments.
+        /// If not provided, defaults the output folder to the directory of the input file.
+        /// </summary>
+        /// <param name="args">The command-line arguments.</param>
+        /// <param name="parsedArguments">The object that will store the parsed output folder path.</param>
+        /// <param name="message">Unused in this handler; set to an empty string.</param>
+        /// <returns>
+        /// <c>true</c> if the output folder was found or defaulted successfully; <c>false</c> if the argument
+        /// was specified but the folder path was missing.
+        /// </returns>
+        private static bool OutputFolderHandler(
+            string[] args,
+            ParsedArguments parsedArguments,
+            out string message
+        )
+        {
+            message = "";
+
+            // Find --outputFolder or -of
+            int pathIndex = Array.IndexOf(args, "--outputFolder");
+            if (pathIndex == -1)
+                pathIndex = Array.IndexOf(args, "-of");
+            if(pathIndex == -1)
+            {
+                parsedArguments.OutputFolder = Path.GetDirectoryName(args[0]);
+                return true;
+            }
+
+            // Check if output folder is provided
+            if (pathIndex + 1 >= args.Length)
+                return false;
+
+            parsedArguments.OutputDir = args[pathIndex + 1];
             return true;
         }
 
