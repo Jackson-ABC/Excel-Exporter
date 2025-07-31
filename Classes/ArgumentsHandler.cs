@@ -193,38 +193,54 @@ namespace ExcelExporter.Classes
 
         private static bool FileTypeHandler(
             string[] args,
-            out string? parsedInputFilePath, out string? parsedFileType, out string? parsedOutputDir, out string? outputText)
+            ParsedArguments parsedArguments,
+            out string? message
+        )
         {
-            parsedInputFilePath = null;
-            parsedFileType = null;
-            parsedOutputDir = null;
-            outputText = null;
+            message = "";
+            string file_type;
 
             // Find --fileType or -ft
             int index = Array.IndexOf(args, "--fileType");
             if (index == -1)
                 index = Array.IndexOf(args, "-ft");
+            if(index == -1)
+            {
+                file_type = "";
+                if (ValidateFileType(file_type))
+                    message += $"Auto-detected file type from input file: {file_type}\n";
+                else
+                {
+                    message += $"Auto-detected file type from input file is invalid: {file_type}\n";
+                    return false;
+                }
+                goto end;
+            }
 
             // Check if file type is provided
-            if (index == -1 || index + 1 >= args.Length)
+            if (index + 1 >= args.Length)
             {
-                outputText = "Error: Missing file type after --fileType or -ft.";
+                message = "Error: Missing file type after --fileType or -ft.";
                 return false;
             }
 
-            parsedFileType = args[index + 1];
-
-            // Validate file type
-            try
+            // Check if file type is valid
+            file_type = args[index + 1];
+            
+            if (!ValidateFileType(file_type))
             {
-                ValidateFileType(parsedFileType);
-            }
-            catch (Exception ex)
-            {
-                outputText = $"Invalid file type: {ex.Message}";
-                return false;
+                file_type = Path.GetExtension(args[0]).TrimStart('.');
+                if (ValidateFileType(file_type))
+                    message += $"Auto-detected file type from input file: {file_type}\n";
+                else
+                {
+                    message += $"Auto-detected file type from input file is invalid: {file_type}\n";
+                    return false;
+                }
             }
 
+            end:
+            parsedArguments.FileType = file_type;
             return true;
         }
         #endregion
