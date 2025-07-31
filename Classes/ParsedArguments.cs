@@ -5,6 +5,7 @@
         private string? input_file_path;
         public string InputFilePath
         {
+            get => input_file_path;
             set => input_file_path = value;
         }
 
