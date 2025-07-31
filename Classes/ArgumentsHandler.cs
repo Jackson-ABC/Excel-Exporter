@@ -174,30 +174,43 @@ namespace ExcelExporter.Classes
             return false;
         }
 
+        /// <summary>
+        /// Parses the <c>--outputPath</c> or <c>-op</c> argument from the command-line
+        /// and sets the output directory in <paramref name="parsedArguments"/>.
+        /// </summary>
+        /// <param name="args">The full array of command-line arguments.</param>
+        /// <param name="parsedArguments">The object to populate with parsed values.</param>
+        /// <param name="message">An optional error or info message to return.</param>
+        /// <returns>
+        /// <c>true</c> if the output path was successfully found and set; 
+        /// <c>false</c> if the argument was missing or incomplete.
+        /// </returns>
         private static bool OutputPathHandler(
             string[] args,
-            out string? parsedInputFilePath, out string? parsedFileType, out string? parsedOutputDir, out string? outputText
+            ParsedArguments parsedArguments,
+            out string? message
         )
         {
-            parsedInputFilePath = null;
-            parsedFileType = null;
-            parsedOutputDir = null;
-            outputText = null;
+            message = "";
 
             // Find --outputPath or -op
             int pathIndex = Array.IndexOf(args, "--outputPath");
             if (pathIndex == -1)
-            {
                 pathIndex = Array.IndexOf(args, "-op");
+            if(pathIndex == -1)
+            {
+                parsedArguments.OutputPath = Path.GetDirectoryName(args[0]);
+                return true;
             }
 
             // Check if output path is provided
-            if (pathIndex == -1 || pathIndex + 1 >= args.Length)
+            if (pathIndex + 1 >= args.Length)
             {
+                message = "Error: Missing output path after --outputPath or -op.";
                 return false;
             }
 
-            parsedOutputDir = args[pathIndex + 1];
+            parsedArguments.OutputPath = args[pathIndex + 1];
             return true;
         }
 
