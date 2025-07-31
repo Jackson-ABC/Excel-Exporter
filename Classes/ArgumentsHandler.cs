@@ -1,10 +1,3 @@
-public class ParsedArguments
-{
-    public string InputFilePath { get; set; } = "";
-    public string OutputPath { get; set; } = "";
-    public string FileType { get; set; } = "";
-}
-
 public class ArgumentsHandler
 {
     private static Dictionary<string, Command> commands = new Dictionary<string, Command>();
