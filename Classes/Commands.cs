@@ -1,8 +1,8 @@
+using ExcelExporter.Classes;
+
 public delegate bool Function(
     string[] args,
-    out string? parsedInput,
-    out string? parsedFileType,
-    out string? parsedOutputDir,
+    ParsedArguments parsedArguments,
     out string? handlerOutput
 );
 
@@ -13,7 +13,12 @@ public class Command
     public string Description { get; set; }
     public Function Handler { get; set; }
 
-    public Command(string key, string aliases, string description, Function handler)
+    public Command(
+        string key,
+        string aliases,
+        string description,
+        Function handler
+    )
     {
         Key = key;
         Aliases = aliases;
