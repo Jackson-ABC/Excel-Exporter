@@ -104,12 +104,6 @@ namespace ExcelExporter.Classes
                 }
             }
 
-            if (!success || invokedHandlers.Count == 0)
-            {
-                if (invokedHandlers.Count == 0)
-                    message += "Error: No valid arguments provided.\n";
-            }
-
             return success;
         }
 
