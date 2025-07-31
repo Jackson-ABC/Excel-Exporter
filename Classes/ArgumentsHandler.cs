@@ -135,27 +135,48 @@ namespace ExcelExporter.Classes
         }
 
         #region Command Handlers
+        /// <summary>
+        /// Handles the <c>--help</c> or <c>-h</c> argument by generating usage instructions 
+        /// and listing all available commands and their aliases.
+        /// </summary>
+        /// <param name="args">The full array of command-line arguments.</param>
+        /// <param name="parsedArguments">The object to populate with parsed values (unused).</param>
+        /// <param name="message">The message containing usage information and available commands.</param>
+        /// <returns>
+        /// Always returns <c>false</c> to indicate help was shown and normal processing should stop.
+        /// </returns>
         private static bool HelpHandler(
             string[] args,
-            out string? parsedInputFilePath, out string? parsedFileType, out string? parsedOutputDir, out string? outputText
+            ParsedArguments parsedArguments,
+            out string? message
         )
         {
-            parsedInputFilePath = null;
-            parsedFileType = null;
-            parsedOutputDir = null;
+            message =
+                "Usage: ExcelExporter.exe <input_file> <arguments>\n" +
+                "Example: ExcelExporter.exe input.xlsx\n" +
+                "<input_file> should be an Excel file (xlsx, xltx, xlsm, xltm, xlam)\n" +
+                "Macro-enabled workbooks (xlsm, xltm, xlam) will have their VBA code extracted\n" +
+                "\n" +
+                "Available arguments:\n";
 
-            outputText = "Usage: ExcelExporter.exe <input_file> <arguments>\n";
-            outputText += "Example: ExcelExporter.exe input.xlsx --outputPath ./output\n";
-            outputText += "<input_file> should be an Excel file (xlsx, xltx, xlsm, xltm, xlam)\n";
-            outputText += "Macro-enabled workbooks (xlsm, xltm, xlam) will have their VBA code extracted\n";
-            outputText += "\n";
-            outputText += "Available arguments:\n";
-
-            foreach (var command in commands)
+            if (args.Length > 1)
             {
-                outputText += $"{command.Value.Key}: {command.Value.Description}\n";
-                outputText += $"  Aliases: {command.Value.Aliases}\n";
-                outputText += "\n";
+                foreach (string arg in args)
+                {
+                    message += $"{arg}: {commands[arg].Description}\n" +
+                        $"  Aliases: {commands[arg].Aliases}\n" +
+                        "\n";
+                }
+            }
+            else
+            {
+                foreach (var command in commands)
+                {
+                    message +=
+                        $"{command.Value.Key}: {command.Value.Description}\n" +
+                        $"  Aliases: {command.Value.Aliases}\n" +
+                        "\n";
+                }
             }
 
             return false;
