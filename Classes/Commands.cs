@@ -6,24 +6,16 @@ namespace ExcelExporter.Classes
         out string handlerOutput
     );
 
-    public class Command
+    public class Command(
+        string key,
+        string aliases,
+        string description,
+        Function handler
+    )
     {
-        public string Key { get; set; }
-        public string Aliases { get; set; }
-        public string Description { get; set; }
-        public Function Handler { get; set; }
-
-        public Command(
-            string key,
-            string aliases,
-            string description,
-            Function handler
-        )
-        {
-            Key = key;
-            Aliases = aliases;
-            Description = description;
-            Handler = handler;
-        }
+        public string Key { get; set; } = key;
+        public string Aliases { get; set; } = aliases;
+        public string Description { get; set; } = description;
+        public Function Handler { get; set; } = handler;
     }
 }
