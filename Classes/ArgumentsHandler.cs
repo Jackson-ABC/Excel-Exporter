@@ -117,7 +117,7 @@ namespace ExcelExporter.Classes
         private static bool HelpHandler(
             string[] args,
             ParsedArguments parsedArguments,
-            out string? message
+            out string message
         )
         {
             message =
@@ -164,7 +164,7 @@ namespace ExcelExporter.Classes
         private static bool VersionHandler(
             string[] args,
             ParsedArguments parsedArguments,
-            out string? message
+            out string message
         )
         {
             message = $"Version {Assembly.GetExecutingAssembly().GetName().Version}\n";
@@ -185,7 +185,7 @@ namespace ExcelExporter.Classes
         private static bool OutputPathHandler(
             string[] args,
             ParsedArguments parsedArguments,
-            out string? message
+            out string message
         )
         {
             message = "";
@@ -214,7 +214,7 @@ namespace ExcelExporter.Classes
         private static bool FileTypeHandler(
             string[] args,
             ParsedArguments parsedArguments,
-            out string? message
+            out string message
         )
         {
             message = "";
@@ -267,7 +267,7 @@ namespace ExcelExporter.Classes
         private static bool SaveTypeHandler(
             string[] args,
             ParsedArguments parsedArguments,
-            out string? message
+            out string message
         )
         {
             message = "";
