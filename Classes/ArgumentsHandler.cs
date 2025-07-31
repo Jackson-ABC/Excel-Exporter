@@ -78,29 +78,13 @@ namespace ExcelExporter.Classes
             message = "";
             parsed_args = new ParsedArguments();
 
-            HashSet<string> invokedHandlers = new HashSet<string>();
-
             foreach (KeyValuePair<string, Command> cmdEntry in commands)
             {
-                string[] aliases = cmdEntry.Value.Aliases.Split(';');
-                foreach (string alias in aliases)
+                bool result = cmdEntry.Value.Handler(args, parsed_args, out string handlerOutput);
+                if (!result)
                 {
-                    string trimmedAlias = alias.Trim();
-                    int index = Array.IndexOf(args, trimmedAlias);
-                    if (index != -1)
-                    {
-                        if (invokedHandlers.Contains(cmdEntry.Key))
-                            continue;
-
-                        invokedHandlers.Add(cmdEntry.Key);
-
-                        bool result = cmdEntry.Value.Handler(args, parsed_args, out string handlerOutput);
-                        if (!result)
-                        {
-                            message += handlerOutput + "\n";
-                            success = false;
-                        }
-                    }
+                    message += handlerOutput + "\n";
+                    success = false;
                 }
             }
 
