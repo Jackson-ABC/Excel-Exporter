@@ -10,9 +10,9 @@ internal class Program
         Console.WriteLine("A tool for exporting data to Excel files");
         Console.WriteLine();
 
-        if (!ArgumentsHandler.HandleArguments(args, out string? inputFilePath, out string? fileType, out string? outputDir, out string? outputText))
+        if (!ArgumentsHandler.HandleArguments(args, out ParsedArguments parsedArguments, out string? messages))
         {
-            Console.WriteLine(outputText);
+            Console.WriteLine(messages);
             return;
         }
 
