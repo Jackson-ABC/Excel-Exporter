@@ -59,15 +59,15 @@ namespace ExcelExporter.Classes
 
         public static bool HandleArguments(
             string[] args,
-            out string? inputFilePath, out string? fileType, out string? outputDir, out string? outputText
+            out ParsedArguments parsed_args,
+            out string message
         )
         {
-            inputFilePath = args[0];
-            fileType = null;
-            outputDir = null;
-            outputText = null;
             bool success = true;
-            
+            string inputFilePath = args[0];
+            message = "";
+            parsed_args = new ParsedArguments();
+
             var invokedHandlers = new HashSet<string>();
 
             foreach (var cmdEntry in commands)
@@ -84,52 +84,20 @@ namespace ExcelExporter.Classes
 
                         invokedHandlers.Add(cmdEntry.Key);
 
-                        bool result = cmdEntry.Value.Handler(args, out string parsedInputFilePath, out string parsedFileType, out string parsedOutputDir, out string handlerOutput);
+                        bool result = cmdEntry.Value.Handler(args, parsed_args, out string handlerOutput);
                         if (!result)
                         {
-                            outputText += handlerOutput + "\n";
+                            message += handlerOutput + "\n";
                             success = false;
                         }
-
-                        if (!string.IsNullOrWhiteSpace(parsedInputFilePath))
-                            inputFilePath = parsedInputFilePath;
-
-                        if (!string.IsNullOrWhiteSpace(parsedFileType))
-                            fileType = parsedFileType;
-
-                        if (!string.IsNullOrWhiteSpace(parsedOutputDir))
-                            outputDir = parsedOutputDir;
                     }
                 }
-            }
-
-            // Auto-derive fileType from inputFilePath if missing
-            if (string.IsNullOrWhiteSpace(fileType) && !string.IsNullOrWhiteSpace(inputFilePath))
-            {
-                fileType = Path.GetExtension(inputFilePath).TrimStart('.');
-                try
-                {
-                    ValidateFileType(fileType);
-                    outputText += $"Auto-detected file type from input file: {fileType}\n";
-                }
-                catch (Exception ex)
-                {
-                    outputText += $"Auto-detected file type from input file is invalid: {ex.Message}\n";
-                    success = false;
-                }
-            }
-
-            // Auto-derive outputDir from inputFilePath if missing
-            if (string.IsNullOrWhiteSpace(outputDir) && !string.IsNullOrWhiteSpace(inputFilePath))
-            {
-                outputDir = Path.GetDirectoryName(inputFilePath);
-                outputText += $"Auto-detected output directory from input file: {outputDir}\n";
             }
 
             if (!success || invokedHandlers.Count == 0)
             {
                 if (invokedHandlers.Count == 0)
-                    outputText += "Error: No valid arguments provided.\n";
+                    message += "Error: No valid arguments provided.\n";
             }
 
             return success;
@@ -160,7 +128,7 @@ namespace ExcelExporter.Classes
                 "\n" +
                 "Available arguments:\n";
 
-            if (args.Length > 1)
+            if(args.Length > 1)
             {
                 foreach (string arg in args)
                 {
