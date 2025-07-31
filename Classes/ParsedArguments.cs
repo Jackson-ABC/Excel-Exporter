@@ -31,7 +31,7 @@
         }
 
         private string? output_folder;
-        public string? OutputFolder
+        public string? OutputName
         {
             get => output_folder;
             set => output_folder = value;

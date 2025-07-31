@@ -224,7 +224,7 @@ namespace ExcelExporter.Classes
                 pathIndex = Array.IndexOf(args, "-of");
             if(pathIndex == -1)
             {
-                parsedArguments.OutputFolder = Path.GetFileName(args[0]);
+                parsedArguments.OutputName = Path.GetFileName(args[0]);
                 return true;
             }
 
