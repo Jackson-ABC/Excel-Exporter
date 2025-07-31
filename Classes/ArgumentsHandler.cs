@@ -326,6 +326,20 @@ namespace ExcelExporter.Classes
             return true;
         }
 
+        /// <summary>
+        /// Parses the <c>--saveType</c> or <c>-st</c> argument from the command-line input.
+        /// If not provided, defaults to <c>"json"</c> as the save type.
+        /// Validates the save type using <c>ValidateSaveType</c>.
+        /// </summary>
+        /// <param name="args">The command-line arguments.</param>
+        /// <param name="parsedArguments">The object to populate with the detected or provided save type.</param>
+        /// <param name="message">
+        /// A message indicating whether a default was used, or describing any validation error encountered.
+        /// </param>
+        /// <returns>
+        /// <c>true</c> if a valid save type is provided or defaulted; <c>false</c> if the argument is missing a value
+        /// or specifies an invalid type.
+        /// </returns>
         private static bool SaveTypeHandler(
             string[] args,
             ParsedArguments parsedArguments,
