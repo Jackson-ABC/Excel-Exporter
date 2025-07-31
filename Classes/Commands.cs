@@ -3,7 +3,7 @@ using ExcelExporter.Classes;
 public delegate bool Function(
     string[] args,
     ParsedArguments parsedArguments,
-    out string? handlerOutput
+    out string handlerOutput
 );
 
 public class Command
