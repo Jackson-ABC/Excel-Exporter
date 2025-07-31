@@ -1,3 +1,4 @@
+using ExcelExporter.Resources;
 using System.Reflection;
 
 namespace ExcelExporter.Classes
