@@ -258,6 +258,21 @@ namespace ExcelExporter.Classes
             return true;
         }
 
+        /// <summary>
+        /// Parses the <c>--fileType</c> or <c>-ft</c> argument from the command-line input.
+        /// If not provided, attempts to auto-detect the file type from the input file's extension.
+        /// Validates the file type using <c>ValidateFileType</c>.
+        /// </summary>
+        /// <param name="args">The command-line arguments.</param>
+        /// <param name="parsedArguments">The object to populate with the detected or provided file type.</param>
+        /// <param name="message">
+        /// An informational or error message indicating the result of the parsing and validation.
+        /// Includes auto-detection feedback or missing/invalid argument errors.
+        /// </param>
+        /// <returns>
+        /// <c>true</c> if a valid file type is detected or provided; <c>false</c> if validation fails
+        /// or the required value is missing when explicitly specified.
+        /// </returns>
         private static bool FileTypeHandler(
             string[] args,
             ParsedArguments parsedArguments,
