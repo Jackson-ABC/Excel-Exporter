@@ -68,12 +68,12 @@ namespace ExcelExporter.Classes
             message = "";
             parsed_args = new ParsedArguments();
 
-            var invokedHandlers = new HashSet<string>();
+            HashSet<string> invokedHandlers = new HashSet<string>();
 
-            foreach (var cmdEntry in commands)
+            foreach (KeyValuePair<string, Command> cmdEntry in commands)
             {
                 string[] aliases = cmdEntry.Value.Aliases.Split(';');
-                foreach (var alias in aliases)
+                foreach (string alias in aliases)
                 {
                     string trimmedAlias = alias.Trim();
                     int index = Array.IndexOf(args, trimmedAlias);
