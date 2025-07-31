@@ -16,13 +16,16 @@ internal class Program
             return;
         }
 
-        if (string.IsNullOrEmpty(inputFilePath) || string.IsNullOrEmpty(fileType) || string.IsNullOrEmpty(outputDir))
+        if (string.IsNullOrEmpty(parsedArguments.InputFilePath) || string.IsNullOrEmpty(parsedArguments.FileType) || string.IsNullOrEmpty(parsedArguments.OutputDir))
         {
             Console.WriteLine("No inputs specified. Use --help to see usage.");
             return;
         }
 
-        string workbookDir = GenerateRequiredDirectories.Run(inputFilePath, fileType, outputDir);
+        string workbookName = parsedArguments.OutputName + "_internals";
+        string workbookDir = Path.Combine(parsedArguments.OutputDir, workbookName);
+
+        GenerateRequiredDirectories.Run(parsedArguments.InputFilePath, parsedArguments.FileType, workbookDir);
         string worksheetDir = Path.Combine(workbookDir, "Sheets");
         string vbaDir = Path.Combine(workbookDir, "VBA");
         string ribbonXDir = Path.Combine(workbookDir, "RibbonX");
@@ -35,7 +38,7 @@ internal class Program
 
         try
         {
-            xlWB = xlApp.Workbooks.Open(inputFilePath);
+            xlWB = xlApp.Workbooks.Open(parsedArguments.InputFilePath);
 
             foreach (Excel.Worksheet xlWS in xlWB.Sheets)
             {
