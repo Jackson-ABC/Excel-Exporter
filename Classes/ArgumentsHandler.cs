@@ -206,7 +206,7 @@ namespace ExcelExporter.Classes
                 pathIndex = Array.IndexOf(args, "-op");
             if(pathIndex == -1)
             {
-                parsedArguments.OutputPath = Path.GetDirectoryName(args[0]);
+                parsedArguments.OutputDir = Path.GetDirectoryName(args[0]);
                 return true;
             }
 
@@ -217,7 +217,7 @@ namespace ExcelExporter.Classes
                 return false;
             }
 
-            parsedArguments.OutputPath = args[pathIndex + 1];
+            parsedArguments.OutputDir = args[pathIndex + 1];
             return true;
         }
 
