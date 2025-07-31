@@ -22,14 +22,21 @@ namespace ExcelExporter.Classes
             commands.Add("outputPath",
                 new Command("outputPath",
                     "--outputPath; -op",
-                    "The path to extract the workbook to\nUsage: ExcelExporter.exe <input_file> --outputPath <output_path>\nExample: ExcelExporter.exe input.xlsx --outputPath ./output\n",
+                    "The path to extract the workbook to\n" +
+                    "Usage: ExcelExporter.exe <input_file> --outputPath <output_path>\n" +
+                    "Example: ExcelExporter.exe input.xlsx --outputPath ./output\n",
                     OutputPathHandler
                 )
             );
             commands.Add("fileType",
                 new Command("fileType",
                     "--fileType; -ft",
-                    "The file type to extract the workbook to\nUsage: ExcelExporter.exe <input_file> --fileType <file_type>\nExample: ExcelExporter.exe input.xlsx --fileType xlsm\n",
+                    "How to handle the workbook." +
+                    "If an xlsm is handled as an xlsx, the VBA code will not be exported." +
+                    "If an xlsx is handled as an xlsm, a vba folder will be generated.\n" +
+                    "Usage: ExcelExporter.exe <input_file> --fileType <file_type>\n" +
+                    "Standard Options: 'xlsm', 'xlsx'\n" +
+                    "Example: ExcelExporter.exe input.xlsx --fileType xlsm\n",
                     FileTypeHandler
                 )
             );
