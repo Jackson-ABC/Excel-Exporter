@@ -1,6 +1,4 @@
-using ExcelExporter.Classes;
-
-namespace ExcelExporter.Commands
+namespace ExcelExporter.Classes
 {
     public delegate bool Function(
         string[] args,
