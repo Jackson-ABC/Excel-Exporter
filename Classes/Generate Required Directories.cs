@@ -8,7 +8,7 @@ public class GenerateRequiredDirectories
     /// <param name="inputFilePath">The file path of the workbook</param>
     /// <param name="fileType">The file type of the workbook (e.g. .xlsx, .xltx, .xlsm, .xltm, .xlam)</param>
     /// <param name="outputDir">The directory to create the workbook directory in</param>
-    public static string Run(string inputFilePath, string fileType,  string savePath)
+    public static void Run(string inputFilePath, string fileType,  string savePath)
     {
         // Create "Workbook" directory
         Directory.CreateDirectory(savePath);
@@ -29,7 +29,5 @@ public class GenerateRequiredDirectories
             Directory.CreateDirectory(Path.Combine(savePath, "RibbonX"));
             Directory.CreateDirectory(Path.Combine(savePath, "RibbonX", "Icons"));
         }
-
-        return savePath;
     }
 }
