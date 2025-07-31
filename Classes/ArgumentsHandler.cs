@@ -253,6 +253,14 @@ namespace ExcelExporter.Classes
             else
                 return false;
         }
+
+        private static bool ValidateSaveType(string saveType)
+        {
+            if (GlobalDictionaries.AllowedSaveTypes.Contains(saveType))
+                return true;
+            else
+                return false;
+        }
         #endregion
     }
 }
