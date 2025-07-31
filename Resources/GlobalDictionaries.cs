@@ -10,5 +10,11 @@
             "xltm",
             "xlam"
         };
+
+        public static HashSet<string> AllowedSaveTypes = new HashSet<string>
+        {
+            "csv",
+            "json"
+        };
     }
 }
