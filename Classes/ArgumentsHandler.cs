@@ -246,12 +246,12 @@ namespace ExcelExporter.Classes
         #endregion
 
         #region Verifiers
-        private static void ValidateFileType(string fileType)
+        private static bool ValidateFileType(string fileType)
         {
-            if(fileType != "xlsx" && fileType != "xltx" && fileType != "xlsm" && fileType != "xltm" && fileType != "xlam")
-            {
-                throw new Exception("Invalid file type");
-            }
+            if (GlobalDictionaries.AllowedFileTypes.Contains(fileType))
+                return true;
+            else
+                return false;
         }
         #endregion
     }
