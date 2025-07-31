@@ -1,28 +1,31 @@
 using ExcelExporter.Classes;
 
-public delegate bool Function(
-    string[] args,
-    ParsedArguments parsedArguments,
-    out string handlerOutput
-);
-
-public class Command
+namespace ExcelExporter.Commands
 {
-    public string Key { get; set; }
-    public string Aliases { get; set; }
-    public string Description { get; set; }
-    public Function Handler { get; set; }
+    public delegate bool Function(
+        string[] args,
+        ParsedArguments parsedArguments,
+        out string handlerOutput
+    );
 
-    public Command(
-        string key,
-        string aliases,
-        string description,
-        Function handler
-    )
+    public class Command
     {
-        Key = key;
-        Aliases = aliases;
-        Description = description;
-        Handler = handler;
+        public string Key { get; set; }
+        public string Aliases { get; set; }
+        public string Description { get; set; }
+        public Function Handler { get; set; }
+
+        public Command(
+            string key,
+            string aliases,
+            string description,
+            Function handler
+        )
+        {
+            Key = key;
+            Aliases = aliases;
+            Description = description;
+            Handler = handler;
+        }
     }
 }
