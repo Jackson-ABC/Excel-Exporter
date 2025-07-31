@@ -40,6 +40,16 @@ namespace ExcelExporter.Classes
                     FileTypeHandler
                 )
             );
+            commands.Add("saveType",
+                new Command("saveType",
+                    "--saveType; -st",
+                    "The filetype to save the extraction as\n" +
+                    "Usage: ExcelExporter.exe <input_file> --saveType <save_type>\n" +
+                    "Options: 1. 'csv'; 2. 'json'\n" +
+                    "Example: ExcelExporter.exe input.xlsm --saveType json\n",
+                    SaveTypeHandler
+                )
+            );
 
             // TODO: --export_vba, --export_powerquery, --export_tables, --export_ribbons, --export_graphs (maybe as images?)
         }
@@ -241,6 +251,44 @@ namespace ExcelExporter.Classes
 
             end:
             parsedArguments.FileType = file_type;
+            return true;
+        }
+
+        private static bool SaveTypeHandler(
+            string[] args,
+            ParsedArguments parsedArguments,
+            out string? message
+        )
+        {
+            message = "";
+            string save_type;
+
+            // Find --saveType or -st
+            int pathIndex = Array.IndexOf(args, "--saveType");
+            if (pathIndex == -1)
+                pathIndex = Array.IndexOf(args, "-st");
+
+            if(pathIndex == -1)
+            {
+                save_type = "json";
+                message += $"Standard save type used: {save_type}\n";
+                return true;
+            }
+
+            // Check if save type is provided
+            if (pathIndex + 1 >= args.Length)
+            {
+                message += "Error: Missing save type after --saveType or -st.";
+                return false;
+            }
+
+            // Check if save type is valid
+            if (!ValidateSaveType(save_type = args[pathIndex + 1]))
+            {
+                message += "Error: Invalid save type after --saveType or -st.";
+                return false;
+            }
+            parsedArguments.SaveType = save_type;
             return true;
         }
         #endregion
