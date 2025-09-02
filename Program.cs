@@ -56,26 +56,32 @@ internal class Program
 
             foreach (Excel.Worksheet xlWS in xlWB.Sheets)
             {
-                Console.WriteLine($"Exporting worksheet '{xlWS.Name}'...");
-                string displaySheetName = xlWS.Name + "_display";
-                string formulaSheetName = xlWS.Name + "_formula";
-
-                // Convert Excel range values to string arrays
-                Excel.Range xlRng_used = xlWS.UsedRange;
-                object[,] valueArray = xlRng_used.Value2 as object[,];
-                object[,] formulaArray = xlRng_used.Formula as object[,];
-
-                CSVHandler.WriteToCSV(valueArray, worksheetDir, displaySheetName);
-                CSVHandler.WriteToCSV(formulaArray, worksheetDir, formulaSheetName);
-
-                // Export VBA code for the worksheet
                 try
                 {
-                    vbaHandling.ExportWorksheetVBA(xlWS, vbaDir);
+                    Console.WriteLine($"Exporting worksheet '{xlWS.Name}'...");
+
+                    string displaySheetName = xlWS.Name + "_display";
+                    string formulaSheetName = xlWS.Name + "_formula";
+
+                    Excel.Range xlRng_used = xlWS.UsedRange;
+                    object[,] valueArray = xlRng_used.Value2 as object[,];
+                    object[,] formulaArray = xlRng_used.Formula as object[,];
+
+                    CSVHandler.WriteToCSV(valueArray, worksheetDir, displaySheetName);
+                    CSVHandler.WriteToCSV(formulaArray, worksheetDir, formulaSheetName);
+
+                    try
+                    {
+                        vbaHandling.ExportWorksheetVBA(xlWS, vbaDir);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Warning: Could not export VBA code for worksheet '{xlWS.Name}': {ex.Message}");
+                    }
                 }
-                catch (Exception ex)
+                finally
                 {
-                    Console.WriteLine($"Warning: Could not export VBA code for worksheet '{xlWS.Name}': {ex.Message}");
+                    Marshal.FinalReleaseComObject(xlWS);
                 }
             }
 
