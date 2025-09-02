@@ -89,6 +89,11 @@ internal class Program
             vbaHandling.ExportClassesVBA(xlWB, vbaDir);
             vbaHandling.ExportFormsVBA(xlWB, vbaDir);
             vbaHandling.ExportThisWorkbookVBA(xlWB, vbaDir);
+
+            string tempPath = Path.Combine(workbookDir, "TempRibbonExport.xlsm");
+            xlWB.SaveCopyAs(tempPath);
+            ribbonHandling.ExportRibbonXML(tempPath, ribbonXDir);
+            File.Delete(tempPath);
         }
         catch (Exception ex)
         {
