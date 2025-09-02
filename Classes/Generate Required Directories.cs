@@ -1,33 +1,36 @@
-public class GenerateRequiredDirectories
+namespace ExcelExporter.Classes
 {
-    public GenerateRequiredDirectories() { }
-
-    /// <summary>
-    /// Generates the required directories for the workbook
-    /// </summary>
-    /// <param name="inputFilePath">The file path of the workbook</param>
-    /// <param name="fileType">The file type of the workbook (e.g. .xlsx, .xltx, .xlsm, .xltm, .xlam)</param>
-    /// <param name="outputDir">The directory to create the workbook directory in</param>
-    public static void Run(string inputFilePath, string fileType,  string savePath)
+    public class GenerateRequiredDirectories
     {
-        // Create "Workbook" directory
-        Directory.CreateDirectory(savePath);
+        public GenerateRequiredDirectories() { }
 
-        // Create "Sheets" directory
-        Directory.CreateDirectory(Path.Combine(savePath, "Sheets"));
-
-        if (fileType == ".xl?m")
+        /// <summary>
+        /// Generates the required directories for the workbook
+        /// </summary>
+        /// <param name="inputFilePath">The file path of the workbook</param>
+        /// <param name="fileType">The file type of the workbook (e.g. .xlsx, .xltx, .xlsm, .xltm, .xlam)</param>
+        /// <param name="outputDir">The directory to create the workbook directory in</param>
+        public static void Run(string inputFilePath, string fileType, string savePath)
         {
-            // Create "VBA" directories
-            Directory.CreateDirectory(Path.Combine(savePath, "VBA"));
-            Directory.CreateDirectory(Path.Combine(savePath, "VBA", "Microsoft Excel Objects"));
-            Directory.CreateDirectory(Path.Combine(savePath, "VBA", "Modules"));
-            Directory.CreateDirectory(Path.Combine(savePath, "VBA", "Classes"));
-            Directory.CreateDirectory(Path.Combine(savePath, "VBA", "Forms"));
+            // Create "Workbook" directory
+            Directory.CreateDirectory(savePath);
 
-            // Create "RibbonX" directory (Custom Ribbons)
-            Directory.CreateDirectory(Path.Combine(savePath, "RibbonX"));
-            Directory.CreateDirectory(Path.Combine(savePath, "RibbonX", "Icons"));
+            // Create "Sheets" directory
+            Directory.CreateDirectory(Path.Combine(savePath, "Sheets"));
+
+            if (fileType == ".xl?m")
+            {
+                // Create "VBA" directories
+                Directory.CreateDirectory(Path.Combine(savePath, "VBA"));
+                Directory.CreateDirectory(Path.Combine(savePath, "VBA", "Microsoft Excel Objects"));
+                Directory.CreateDirectory(Path.Combine(savePath, "VBA", "Modules"));
+                Directory.CreateDirectory(Path.Combine(savePath, "VBA", "Classes"));
+                Directory.CreateDirectory(Path.Combine(savePath, "VBA", "Forms"));
+
+                // Create "RibbonX" directory (Custom Ribbons)
+                Directory.CreateDirectory(Path.Combine(savePath, "RibbonX"));
+                Directory.CreateDirectory(Path.Combine(savePath, "RibbonX", "Icons"));
+            }
         }
     }
 }
