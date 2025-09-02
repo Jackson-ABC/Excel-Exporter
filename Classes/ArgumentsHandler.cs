@@ -110,21 +110,29 @@ namespace ExcelExporter.Classes
             out string message
         )
         {
+            if (!(args.Contains("--help") || args.Contains("-h")))
+            {
+                message = "";
+                return true;
+            }
+
             message =
                 "Usage: ExcelExporter.exe <input_file> <arguments>\n" +
                 "Example: ExcelExporter.exe input.xlsx\n" +
                 "<input_file> should be an Excel file (xlsx, xltx, xlsm, xltm, xlam)\n" +
                 "Macro-enabled workbooks (xlsm, xltm, xlam) will have their VBA code extracted\n" +
                 "\n" +
-                "Available arguments:\n";
+                "Available arguments:\n" +
+                "\n======================================\n\n";
 
             if(args.Length > 1)
             {
                 foreach (string arg in args)
                 {
-                    message += $"{arg}: {commands[arg].Description}\n" +
-                        $"  Aliases: {commands[arg].Aliases}\n" +
-                        "\n";
+                    if(arg.StartsWith("-") && commands.ContainsKey(arg))
+                        message += $"{arg}: {commands[arg].Description}\n" +
+                            $"  Aliases: {commands[arg].Aliases}\n" +
+                            "\n======================================\n\n";
                 }
             }
             else
@@ -134,7 +142,7 @@ namespace ExcelExporter.Classes
                     message +=
                         $"{command.Value.Key}: {command.Value.Description}\n" +
                         $"  Aliases: {command.Value.Aliases}\n" +
-                        "\n";
+                        "\n======================================\n\n";
                 }
             }
 
