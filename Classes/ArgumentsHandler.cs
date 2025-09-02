@@ -162,7 +162,7 @@ namespace ExcelExporter.Classes
         }
 
         /// <summary>
-        /// Parses the <c>--outputPath</c> or <c>-op</c> argument from the command-line
+        /// Parses the <c>--outputDir</c> or <c>-od</c> argument from the command-line
         /// and sets the output directory in <paramref name="parsedArguments"/>.
         /// </summary>
         /// <param name="args">The full array of command-line arguments.</param>
@@ -172,7 +172,7 @@ namespace ExcelExporter.Classes
         /// <c>true</c> if the output path was successfully found and set; 
         /// <c>false</c> if the argument was missing or incomplete.
         /// </returns>
-        private static bool OutputPathHandler(
+        private static bool OutputDirHandler(
             string[] args,
             ParsedArguments parsedArguments,
             out string message
@@ -180,10 +180,10 @@ namespace ExcelExporter.Classes
         {
             message = "";
 
-            // Find --outputPath or -op
-            int pathIndex = Array.IndexOf(args, "--outputPath");
+            // Find --outputDir or -od
+            int pathIndex = Array.IndexOf(args, "--outputDir");
             if (pathIndex == -1)
-                pathIndex = Array.IndexOf(args, "-op");
+                pathIndex = Array.IndexOf(args, "-od");
             if(pathIndex == -1)
             {
                 parsedArguments.OutputDir = Path.GetDirectoryName(args[0]);
@@ -193,7 +193,7 @@ namespace ExcelExporter.Classes
             // Check if output path is provided
             if (pathIndex + 1 >= args.Length)
             {
-                message = "Error: Missing output path after --outputPath or -op.";
+                message = "Error: Missing output path after --outputDir or -od.";
                 return false;
             }
 
