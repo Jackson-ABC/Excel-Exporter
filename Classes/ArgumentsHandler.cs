@@ -268,7 +268,7 @@ namespace ExcelExporter.Classes
                 index = Array.IndexOf(args, "-ft");
             if(index == -1)
             {
-                file_type = "";
+                file_type = HandleIncorrectFileType(args[0]);
                 if (ValidateFileType(file_type))
                     message += $"Auto-detected file type from input file: {file_type}\n";
                 else
@@ -291,7 +291,7 @@ namespace ExcelExporter.Classes
             
             if (!ValidateFileType(file_type))
             {
-                file_type = Path.GetExtension(args[0]).TrimStart('.');
+                file_type = HandleIncorrectFileType(args[0]);
                 if (ValidateFileType(file_type))
                     message += $"Auto-detected file type from input file: {file_type}\n";
                 else
