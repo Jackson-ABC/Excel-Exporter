@@ -11,6 +11,41 @@ namespace ExcelExporter.Classes
             var sb = new StringBuilder();
             int rows = array.GetLength(0);
             int cols = array.GetLength(1);
+
+            /*
+             * {
+             *   "name":"document name",
+             *   "sheets":{
+             *     "sheetName":{
+             *       "lastCol":10,
+             *       "lastRow":10,
+             *       "values":{
+             *         "A":{
+             *           "1":{
+             *             "displayedVal":"",
+             *             "formulaVal":"",
+             *             "?other vals?":""
+             *           },
+             *           "2":{
+             *             "displayedVal":"",
+             *             "formulaVal":"=IF(TRUE, \"\", \"false displayed\")"
+             *           }
+             *         },
+             *         "B":{
+             *           "1":{
+             *             "displayedVal":"",
+             *             "formulaVal":"",
+             *           }
+             *         }
+             *       }
+             *     },
+             *     "customRanges":{
+             *       "rangeName":"Sheet1!A1:C3"
+             *     }
+             *   }
+             * }
+             */
+
         }
     }
 }
