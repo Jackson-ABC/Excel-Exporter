@@ -2,7 +2,7 @@
 {
     static class GlobalDictionaries
     {
-        public static HashSet<string> AllowedFileTypes = new HashSet<string>
+        public static HashSet<string> AllowedFileTypes = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
             "xlsx",
             "xltx",
