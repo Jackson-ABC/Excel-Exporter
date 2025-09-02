@@ -11,6 +11,19 @@ internal class Program
         Console.WriteLine("A tool for exporting data to Excel files");
         Console.WriteLine();
 
+        if (!args.Any())
+        {
+            Console.WriteLine("Temporarily here for testing. Input args, seperated by ';'");
+
+            args = (Console.ReadLine() ?? "").Split(";");
+            if (args.Length == 0) { return; }
+
+            for (int i = 0; i < args.Count(); i++)
+            {
+                args[i] = args[i].Trim();
+            }
+        }
+
         if (!ArgumentsHandler.HandleArguments(args, out ParsedArguments parsedArguments, out string? messages))
         {
             Console.WriteLine(messages);
