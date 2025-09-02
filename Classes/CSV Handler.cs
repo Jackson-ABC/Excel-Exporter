@@ -1,4 +1,3 @@
-using System.IO;
 using System.Text;
 
 public class CSVHandler
@@ -14,31 +13,38 @@ public class CSVHandler
         string csvPath = Path.Combine(outputDir, fileName + ".csv");
         
         var sb = new StringBuilder();
-        int rows = array.GetLength(0);
-        int cols = array.GetLength(1);
 
-        for (int i = 1; i <= rows; i++)  // Excel interop is 1-based
+        if (!(array is null))
         {
-            for (int j = 1; j <= cols; j++)
+            int rows = array.GetLength(0);
+            int cols = array.GetLength(1);
+
+            for (int i = 1; i <= rows; i++)  // Excel interop is 1-based
             {
-                object cell = array[i, j];
-                string value = cell?.ToString() ?? "";
-
-                // Quote if it contains comma, quote, or newline
-                if (value.Contains(',') || value.Contains('"') || value.Contains('\n'))
+                for (int j = 1; j <= cols; j++)
                 {
-                    value = "\"" + value.Replace("\"", "\"\"") + "\"";
+                    object cell = array[i, j];
+                    string value = cell?.ToString() ?? "";
+
+                    // Quote if it contains comma, quote, or newline
+                    if (value.Contains(',') || value.Contains('"') || value.Contains('\n'))
+                    {
+                        value = "\"" + value.Replace("\"", "\"\"") + "\"";
+                    }
+
+                    sb.Append(value);
+
+                    if (j < cols)
+                        sb.Append(",");
                 }
-
-                sb.Append(value);
-
-                if (j < cols)
-                    sb.Append(",");
+                sb.AppendLine(); // new row
             }
-            sb.AppendLine(); // new row
+        }
+        else
+        {
+            sb.Append("<empty sheet>");
         }
 
         File.WriteAllText(csvPath, sb.ToString());
     }
-
 }
