@@ -157,8 +157,14 @@ namespace ExcelExporter.Classes
             out string message
         )
         {
-            message = $"Version {Assembly.GetExecutingAssembly().GetName().Version}\n";
-            return false;
+            if(args.Contains("--version") || args.Contains("-v"))
+            {
+                message = $"Version {Assembly.GetExecutingAssembly().GetName().Version}\n";
+                return false;
+            }
+
+            message = "";
+            return true;
         }
 
         /// <summary>
