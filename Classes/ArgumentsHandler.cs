@@ -71,22 +71,24 @@ namespace ExcelExporter.Classes
 
         public static bool HandleArguments(
             string[] args,
-            out ParsedArguments parsed_args,
+            out ParsedArguments parsedArgs,
             out string message
         )
         {
             bool success = true;
-            string inputFilePath = args[0];
+            string inputFilePath = args[0].Trim('\'');
             message = "";
-            parsed_args = new ParsedArguments();
+            parsedArgs = new ParsedArguments();
+            parsedArgs.InputFilePath = inputFilePath;
 
             foreach (KeyValuePair<string, Command> cmdEntry in commands)
             {
-                bool result = cmdEntry.Value.Handler(args, parsed_args, out string handlerOutput);
+                bool result = cmdEntry.Value.Handler(args, parsedArgs, out string handlerOutput);
                 if (!result)
                 {
                     message += handlerOutput + "\n";
                     success = false;
+                    return success;
                 }
             }
 
