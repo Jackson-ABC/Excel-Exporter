@@ -202,7 +202,7 @@ namespace ExcelExporter.Classes
         }
 
         /// <summary>
-        /// Parses the <c>--outputFolder</c> or <c>-of</c> argument from the command-line arguments.
+        /// Parses the <c>--outputName</c> or <c>-on</c> argument from the command-line arguments.
         /// If not provided, defaults the output folder to the directory of the input file.
         /// </summary>
         /// <param name="args">The command-line arguments.</param>
@@ -212,7 +212,7 @@ namespace ExcelExporter.Classes
         /// <c>true</c> if the output folder was found or defaulted successfully; <c>false</c> if the argument
         /// was specified but the folder path was missing.
         /// </returns>
-        private static bool OutputFolderHandler(
+        private static bool OutputNameHandler(
             string[] args,
             ParsedArguments parsedArguments,
             out string message
@@ -220,10 +220,10 @@ namespace ExcelExporter.Classes
         {
             message = "";
 
-            // Find --outputFolder or -of
-            int pathIndex = Array.IndexOf(args, "--outputFolder");
+            // Find --outputName or -on
+            int pathIndex = Array.IndexOf(args, "--outputName");
             if (pathIndex == -1)
-                pathIndex = Array.IndexOf(args, "-of");
+                pathIndex = Array.IndexOf(args, "-on");
             if(pathIndex == -1)
             {
                 parsedArguments.OutputName = Path.GetFileName(args[0]);
@@ -234,7 +234,7 @@ namespace ExcelExporter.Classes
             if (pathIndex + 1 >= args.Length)
                 return false;
 
-            parsedArguments.OutputDir = args[pathIndex + 1];
+            parsedArguments.OutputName = args[pathIndex + 1];
             return true;
         }
 
