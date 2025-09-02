@@ -94,8 +94,27 @@ internal class Program
         {
             Console.WriteLine(ex.ToString());
         }
+        finally
+        {
+            if (xlWB != null)
+            {
+                xlWB.Close(false);
+                Marshal.FinalReleaseComObject(xlWB);
+                xlWB = null;
+            }
 
-            #endregion
+            if (xlApp != null)
+            {
+                xlApp.AutomationSecurity = Microsoft.Office.Core.MsoAutomationSecurity.msoAutomationSecurityByUI;
+                xlApp.Quit();
+                Marshal.FinalReleaseComObject(xlApp);
+                xlApp = null;
+            }
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+        }
+        #endregion
 
         #region Cleanup
         Console.WriteLine("Cleaning up...");
@@ -103,6 +122,7 @@ internal class Program
         if (xlWB != null)
             xlWB.Close(false);
 
+        xlApp.AutomationSecurity = Microsoft.Office.Core.MsoAutomationSecurity.msoAutomationSecurityByUI;
         xlApp.Quit();
         #endregion
     }
