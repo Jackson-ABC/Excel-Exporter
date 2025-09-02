@@ -1,4 +1,5 @@
 using ExcelExporter.Classes;
+using System.Runtime.InteropServices;
 using Excel = Microsoft.Office.Interop.Excel;
 
 internal class Program
