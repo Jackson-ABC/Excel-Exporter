@@ -33,13 +33,26 @@ internal class Program
         
         #region Excel Export
         VBA_Handling vbaHandling = new VBA_Handling();
-        Excel.Application xlApp = new Excel.Application();
-        xlApp.Visible = false;
+        Ribbon_Handling ribbonHandling = new Ribbon_Handling();
+        Excel.Application xlApp = new Excel.Application()
+        {
+            Visible = false,
+            DisplayAlerts = false,
+            AutomationSecurity = Microsoft.Office.Core.MsoAutomationSecurity.msoAutomationSecurityForceDisable
+        };
+        xlApp.EnableEvents = false;
+
         Excel.Workbook xlWB = null;
 
         try
         {
-            xlWB = xlApp.Workbooks.Open(parsedArguments.InputFilePath);
+            xlWB = xlApp.Workbooks.Open(
+                parsedArguments.InputFilePath,
+                UpdateLinks: 0,
+                ReadOnly: true,
+                IgnoreReadOnlyRecommended: true,
+                AddToMru: false
+            );
 
             foreach (Excel.Worksheet xlWS in xlWB.Sheets)
             {
