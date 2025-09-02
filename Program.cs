@@ -114,6 +114,8 @@ internal class Program
         }
         finally
         {
+            #region Cleanup
+            Console.WriteLine("Cleaning up...");
             if (xlWB != null)
             {
                 xlWB.Close(false);
@@ -131,17 +133,8 @@ internal class Program
 
             GC.Collect();
             GC.WaitForPendingFinalizers();
+            #endregion
         }
-        #endregion
-
-        #region Cleanup
-        Console.WriteLine("Cleaning up...");
-        
-        if (xlWB != null)
-            xlWB.Close(false);
-
-        xlApp.AutomationSecurity = Microsoft.Office.Core.MsoAutomationSecurity.msoAutomationSecurityByUI;
-        xlApp.Quit();
         #endregion
     }
 }
