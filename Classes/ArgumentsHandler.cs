@@ -306,6 +306,19 @@ namespace ExcelExporter.Classes
             return true;
         }
 
+        private static string HandleIncorrectFileType(string inputFilePath)
+        {
+            string outputStr = inputFilePath;
+
+            if (outputStr.Contains('.'))
+                outputStr = outputStr.Split('.').Last();
+
+            if (outputStr.Contains('\''))
+                outputStr = outputStr.TrimEnd('\'');
+
+            return outputStr;
+        }
+
         /// <summary>
         /// Parses the <c>--saveType</c> or <c>-st</c> argument from the command-line input.
         /// If not provided, defaults to <c>"json"</c> as the save type.
