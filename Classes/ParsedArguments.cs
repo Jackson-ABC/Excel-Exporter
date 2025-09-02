@@ -36,5 +36,12 @@
             get => output_folder;
             set => output_folder = value;
         }
+
+        private string? save_type;
+        public string? SaveType
+        {
+            get => save_type;
+            set => save_type = value;
+        }
     }
 }
