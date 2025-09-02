@@ -22,23 +22,25 @@ namespace ExcelExporter.Classes
                     VersionHandler
                 )
             );
-            commands.Add("outputPath",
-                new Command("outputPath",
-                    "--outputPath; -op",
-                    "The path to extract the workbook to\n" +
-                    "Usage: ExcelExporter.exe <input_file> --outputPath <output_path>\n" +
-                    "Example: ExcelExporter.exe input.xlsx --outputPath ./output\n",
-                    OutputPathHandler
+            commands.Add("outputDir",
+                new Command("outputDir",
+                    "--outputDir; -od",
+                    "The directory to extract the workbook to\n" +
+                    "Usage: ExcelExporter.exe <input_file> --outputDir <output_path>\n" +
+                    "Example: ExcelExporter.exe input.xlsm --outputDir ./output\n" +
+                    "This will generate a folder structure like so: `./output/input_xlsm/(exported files)`",
+                    OutputDirHandler
                 )
             );
-            commands.Add("outputFolder",
-                new Command("outputFolder",
-                    "--outputFolder; -of",
+            commands.Add("outputName",
+                new Command("outputName",
+                    "--outputName; -on",
                     "The folder to extract the workbook to." +
                     "If outputPath is specified alongside this, this will be generated inside that folder\n" +
-                    "Usage: ExcelExporter.exe <input_file> --outputFolder <output_folder>\n" +
-                    "Example: ExcelExporter.exe input.xlsx --outputFolder ./output_xlsm\n",
-                    OutputFolderHandler
+                    "Usage: ExcelExporter.exe <input_file> --outputName <output_folder>\n" +
+                    "Example: ExcelExporter.exe input.xlsm --outputName ./output\n" +
+                    "This will generate a folder structure like so: `./path/to/input/file/output_xlsm/(exported files)`",
+                    OutputNameHandler
                 )
             );
             commands.Add("fileType",
@@ -49,7 +51,7 @@ namespace ExcelExporter.Classes
                     "If an xlsx is handled as an xlsm, a vba folder will be generated.\n" +
                     "Usage: ExcelExporter.exe <input_file> --fileType <file_type>\n" +
                     "Standard Options: 'xlsm', 'xlsx'\n" +
-                    "Example: ExcelExporter.exe input.xlsx --fileType xlsm\n",
+                    "Example: ExcelExporter.exe input.xlsx --fileType xlsm",
                     FileTypeHandler
                 )
             );
@@ -59,7 +61,7 @@ namespace ExcelExporter.Classes
                     "The filetype to save the extraction as\n" +
                     "Usage: ExcelExporter.exe <input_file> --saveType <save_type>\n" +
                     "Options: 1. 'csv'; 2. 'json'\n" +
-                    "Example: ExcelExporter.exe input.xlsm --saveType json\n",
+                    "Example: ExcelExporter.exe input.xlsm --saveType json",
                     SaveTypeHandler
                 )
             );
