@@ -13,8 +13,13 @@ public class VBA_Handling
 
     public void ExportWorksheetVBA(Excel.Worksheet worksheet, string outputDir)
     {
+        if (worksheet.Parent.GetType() != typeof(Excel.WorkbookClass))
+            throw new Exception($"worksheet.Parent.GetType(): {worksheet.Parent.GetType()}");
+
+        Excel.Workbook workbook = (Excel.Workbook)worksheet.Parent;
+
         // Get the VBA project
-        VBA.VBProject vbProject = worksheet.Parent.VBProject;
+        VBA.VBProject vbProject = workbook.VBProject;
         if (vbProject != null)
         {
             // Get the VBA components
