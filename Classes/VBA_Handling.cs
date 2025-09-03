@@ -13,8 +13,13 @@ public class VBA_Handling
 
     public void ExportWorksheetVBA(Excel.Worksheet worksheet, string outputDir)
     {
+        if (worksheet.Parent.GetType() != typeof(Excel.WorkbookClass))
+            throw new Exception($"worksheet.Parent.GetType(): {worksheet.Parent.GetType()}");
+
+        Excel.Workbook workbook = (Excel.Workbook)worksheet.Parent;
+
         // Get the VBA project
-        VBA.VBProject vbProject = worksheet.Parent.VBProject;
+        VBA.VBProject vbProject = workbook.VBProject;
         if (vbProject != null)
         {
             // Get the VBA components
@@ -31,9 +36,11 @@ public class VBA_Handling
             {
                 // Create a .bas file for the worksheet's code
                 string vbaFilePath = Path.Combine(vbaDir, $"{worksheet.CodeName} ({worksheet.Name}).{fileType}");
-                
+
                 // Write the VBA code to file
-                File.WriteAllText(vbaFilePath, vbComponent.CodeModule.Lines[1, vbComponent.CodeModule.CountOfLines]);
+                int lineCount = vbComponent.CodeModule.CountOfLines;
+                if (lineCount > 0)
+                    File.WriteAllText(vbaFilePath, vbComponent.CodeModule.Lines[1, lineCount]);
             }
         }
     }
@@ -57,9 +64,11 @@ public class VBA_Handling
             {
                 // Create a .bas file for the ThisWorkbook code
                 string vbaFilePath = Path.Combine(vbaDir, $"ThisWorkbook.{fileType}");
-                
+
                 // Write the VBA code to file
-                File.WriteAllText(vbaFilePath, vbComponent.CodeModule.Lines[1, vbComponent.CodeModule.CountOfLines]);
+                int lineCount = vbComponent.CodeModule.CountOfLines;
+                if (lineCount>0)
+                    File.WriteAllText(vbaFilePath, vbComponent.CodeModule.Lines[1, lineCount]);
             }
         }
     }
@@ -84,9 +93,11 @@ public class VBA_Handling
                 {
                     // Create a file for the module
                     string vbaFilePath = Path.Combine(vbaDir, $"{vbComponent.Name}.{fileType}");
-                    
+
                     // Write the VBA code to file
-                    File.WriteAllText(vbaFilePath, vbComponent.CodeModule.Lines[1, vbComponent.CodeModule.CountOfLines]);
+                    int lineCount = vbComponent.CodeModule.CountOfLines;
+                    if (lineCount > 0)
+                        File.WriteAllText(vbaFilePath, vbComponent.CodeModule.Lines[1, lineCount]);
                 }
             }
         }
@@ -112,9 +123,11 @@ public class VBA_Handling
                 {
                     // Create a file for the class
                     string vbaFilePath = Path.Combine(vbaDir, $"{vbComponent.Name}.{fileType}");
-                    
+
                     // Write the VBA code to file
-                    File.WriteAllText(vbaFilePath, vbComponent.CodeModule.Lines[1, vbComponent.CodeModule.CountOfLines]);
+                    int lineCount = vbComponent.CodeModule.CountOfLines;
+                    if (lineCount > 0)
+                        File.WriteAllText(vbaFilePath, vbComponent.CodeModule.Lines[1, lineCount]);
                 }
             }
         }

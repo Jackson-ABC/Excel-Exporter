@@ -1,44 +1,53 @@
-using System.IO;
 using System.Text;
 
-public class CSVHandler
+namespace ExcelExporter.Classes
 {
-    /// <summary>
-    /// Writes a 2D array to a CSV file
-    /// </summary>
-    /// <param name="array">The 2D array to save</param>
-    /// <param name="outputDir">The directory to save the file to</param>
-    /// <param name="fileName">The name of the file to save</param>
-    public static void WriteToCSV(object[,] array, string outputDir, string fileName)
+    public class CSVHandler
     {
-        string csvPath = Path.Combine(outputDir, fileName + ".csv");
-        
-        var sb = new StringBuilder();
-        int rows = array.GetLength(0);
-        int cols = array.GetLength(1);
-
-        for (int i = 1; i <= rows; i++)  // Excel interop is 1-based
+        /// <summary>
+        /// Writes a 2D array to a CSV file
+        /// </summary>
+        /// <param name="array">The 2D array to save</param>
+        /// <param name="outputDir">The directory to save the file to</param>
+        /// <param name="fileName">The name of the file to save</param>
+        public static void WriteToCSV(object[,] array, string outputDir, string fileName)
         {
-            for (int j = 1; j <= cols; j++)
+            string csvPath = Path.Combine(outputDir, fileName + ".csv");
+
+            var sb = new StringBuilder();
+
+            if (!(array is null))
             {
-                object cell = array[i, j];
-                string value = cell?.ToString() ?? "";
+                int rows = array.GetLength(0);
+                int cols = array.GetLength(1);
 
-                // Quote if it contains comma, quote, or newline
-                if (value.Contains(',') || value.Contains('"') || value.Contains('\n'))
+                for (int i = 1; i <= rows; i++)  // Excel interop is 1-based
                 {
-                    value = "\"" + value.Replace("\"", "\"\"") + "\"";
+                    for (int j = 1; j <= cols; j++)
+                    {
+                        object cell = array[i, j];
+                        string value = cell?.ToString() ?? "";
+
+                        // Quote if it contains comma, quote, or newline
+                        if (value.Contains(',') || value.Contains('"') || value.Contains('\n'))
+                        {
+                            value = "\"" + value.Replace("\"", "\"\"") + "\"";
+                        }
+
+                        sb.Append(value);
+
+                        if (j < cols)
+                            sb.Append(",");
+                    }
+                    sb.AppendLine(); // new row
                 }
-
-                sb.Append(value);
-
-                if (j < cols)
-                    sb.Append(",");
             }
-            sb.AppendLine(); // new row
+            else
+            {
+                sb.Append("<empty sheet>");
+            }
+
+            File.WriteAllText(csvPath, sb.ToString());
         }
-
-        File.WriteAllText(csvPath, sb.ToString());
     }
-
 }
